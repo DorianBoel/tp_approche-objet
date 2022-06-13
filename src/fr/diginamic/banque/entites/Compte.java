@@ -3,8 +3,8 @@ package fr.diginamic.banque.entites;
 public class Compte {
 	
 	//Instance attributes
-	private long numero;
-	private float solde;
+	protected long numero;
+	protected float solde;
 	
 	//Constructor
 	public Compte(long numero, float solde) {
