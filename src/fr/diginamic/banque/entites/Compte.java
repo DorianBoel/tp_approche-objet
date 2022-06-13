@@ -11,12 +11,17 @@ public class Compte {
 		this.numero = numero;
 		this.solde = solde;
 	}
+	
+	//Instance methods
+	@Override
+	public String toString() {
+		return "Numéro de compte: " + this.numero + ", Solde: " + this.solde + "€";
+	}
 
 	//Getters
 	public long getNumero() {
 		return numero;
 	}
-
 
 	public float getSolde() {
 		return solde;
