@@ -14,7 +14,8 @@ public class TestPersonne {
 		
 		personne1.setAddress(adresse1);
 		personne2.setAddress(adresse2);
-
+		
+		
 	}
 	
 }
