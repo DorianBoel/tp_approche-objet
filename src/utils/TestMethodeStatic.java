@@ -9,7 +9,9 @@ public class TestMethodeStatic {
 		
 		int a = 116;
 		int b = varInt;
-		System.out.println(Integer.max(a, b));
+		
+		int max = Integer.max(a, b);
+		System.out.println(max);
 
 	}
 
