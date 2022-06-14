@@ -7,7 +7,7 @@ public class AverageCalculator {
 	
 	//Instance method;
 	public void addToArray(double newDouble) {
-		double[] newArray = new double[doubleArray.length + 1];
+		double[] newArray = new double[this.doubleArray.length + 1];
 		for (int i = 0; i < this.doubleArray.length; i++) {
 			newArray[i] = this.doubleArray[i];
 		}
