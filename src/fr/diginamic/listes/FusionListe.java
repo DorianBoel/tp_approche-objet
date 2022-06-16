@@ -27,10 +27,10 @@ public class FusionListe {
 
 	}
 	
-	public static List<String> fuseLists(List<String> ...lists) {
-		List<String> newList = new ArrayList<>();
-		for (List<String> list : lists) {
-			for (String str : list) {
+	public static <T> List<T> fuseLists(List<T> ...lists) {
+		List<T> newList = new ArrayList<>();
+		for (List<T> list : lists) {
+			for (T str : list) {
 				newList.add(str);
 			}
 		}
