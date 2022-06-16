@@ -31,10 +31,10 @@ public class TestListeInt {
 		System.out.println();
 	}
 	
-	public static void displayListElements(List<Integer> list) {
+	public static <T> void displayListElements(List<T> list) {
 		System.out.println("Éléments de la liste:");
-		for (int i : list) {
-			System.out.println(i);
+		for (T e : list) {
+			System.out.println(e);
 		}
 	}
 	
