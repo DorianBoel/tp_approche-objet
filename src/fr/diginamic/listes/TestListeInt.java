@@ -16,10 +16,10 @@ public class TestListeInt {
 		System.out.println("Taille de la liste: " + intList.size());
 		System.out.println();
 		
-		System.out.println("Valeur maximum dans la liste : " + getListMax(intList));
+		System.out.println("Valeur maximum dans la liste: " + getListMax(intList));
 		System.out.println();
 		
-		System.out.println("Valeur minimum supprimée de la liste : " + popListMin(intList));
+		System.out.println("Valeur minimum supprimée de la liste: " + popListMin(intList));
 		System.out.println();
 		
 		displayListElements(intList);

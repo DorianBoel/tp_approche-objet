@@ -25,7 +25,7 @@ public class TestListeString {
 		System.out.println();
 		
 		makeListUppercase(stringList);
-		System.out.println("Chaque élément de la liste est mit en majuscules");
+		System.out.println("Chaque élément de la liste est mis en majuscules");
 		System.out.println();
 		displayListElements(stringList);
 
