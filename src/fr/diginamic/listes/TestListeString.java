@@ -2,6 +2,7 @@ package fr.diginamic.listes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class TestListeString {
@@ -22,6 +23,10 @@ public class TestListeString {
 		);
 		
 		System.out.println("Élément de la liste ayant le plus grand nombre de lettres: " + getListLongest(stringList));
+		System.out.println();
+		
+		deleteFromListOnStartingLetter(stringList, "N");
+		System.out.println("Tous les éléments de la liste commençant par 'N' sont supprimés");
 		System.out.println();
 		
 		makeListUppercase(stringList);
@@ -46,6 +51,17 @@ public class TestListeString {
 			}
 		}
 		return longest;
+	}
+	
+	public static void deleteFromListOnStartingLetter(List<String> list, String letter) {
+		Iterator<String> iter = list.iterator();
+		
+		while(iter.hasNext()) {
+			String str = iter.next();
+			if (str.startsWith(letter)) {
+				iter.remove();
+			}
+		}
 	}
 	
 	public static void makeListUppercase(List<String> list) {
