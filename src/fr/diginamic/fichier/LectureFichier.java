@@ -1,21 +1,18 @@
 package fr.diginamic.fichier;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class LectureFichier {
 
 	public static void main(String[] args) throws IOException {
 		
-		Path pathFile= Paths.get("/Users/macbook/Desktop/dev/diginamic/files/recensement.csv");
+		Path pathFile = FileAccess.PATH_FILE;
 		
-		if (Files.exists(pathFile) && !Files.isDirectory(pathFile)) {
+		if (FileAccess.fileIsValid(pathFile)) {
 			
-			List<String> lines = Files.readAllLines(pathFile, StandardCharsets.UTF_8);
+			List<String> lines = FileAccess.getLines(pathFile);
 			
 			System.out.println("Contenu du fichier '" + pathFile.getName(pathFile.getNameCount() - 1) + "' :");
 			System.out.println();
