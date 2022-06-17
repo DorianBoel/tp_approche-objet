@@ -23,10 +23,10 @@ public class TestTri {
 		);
 		
 		Collections.sort(cityList);
-		System.out.println("On trie les éléments de la liste par ordre alphabétique:");
+		System.out.println("On trie les éléments de la liste par population croissante:");
 		
 		for (City city : cityList) {
-			System.out.println("  " + city.getName());
+			city.displayInfo();
 		}
 		
 	}

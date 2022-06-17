@@ -20,7 +20,7 @@ public class City implements Comparable<City> {
 	
 	@Override
 	public int compareTo(City o) {
-		return this.name.compareTo(o.name);
+		return Integer.compare(this.population, o.getPopulation());
 	}
 
 	// Getters
