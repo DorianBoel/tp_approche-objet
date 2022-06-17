@@ -22,8 +22,18 @@ public class TestTri {
 			)
 		);
 		
-		Collections.sort(cityList);
-		System.out.println("On trie les éléments de la liste par population croissante:");
+		Collections.sort(cityList, new CityNameComparator());
+		System.out.println("On trie les éléments de la liste par ordre alphabétique:");
+		System.out.println();
+		
+		for (City city : cityList) {
+			city.displayInfo();
+		}
+		System.out.println();
+		
+		Collections.sort(cityList, new CityPopulationComparator());
+		System.out.println("On trie les éléments de la liste par nombre croissant d'habitants:");
+		System.out.println();
 		
 		for (City city : cityList) {
 			city.displayInfo();
