@@ -13,7 +13,7 @@ public class CreerFichier {
 		
 		List<String> lines = FileAccess.getLines(FileAccess.PATH_FILE);
 		
-		Path targetPath = Paths.get("/Users/macbook/Desktop/dev/diginamic/files/newFile.txt");
+		Path targetPath = Paths.get("/Users/macbook/Desktop/dev/diginamic/files/new_file.txt");
 		
 		List<String> first100 = new ArrayList<>();
 		
