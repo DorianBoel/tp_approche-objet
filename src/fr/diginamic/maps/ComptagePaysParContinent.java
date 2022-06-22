@@ -23,22 +23,22 @@ public class ComptagePaysParContinent {
 			)	
 		);
 		
-		Map<String, Integer> populationPerContinent = new HashMap<>();
+		Map<String, Integer> countriesPerContinent = new HashMap<>();
 		
 		for (Country c1 : countryList) {
 			String continent = c1.getContinent();
-			int totalPopulation = 0;
+			int countriesNum = 0;
 			for (Country c2 : countryList) {
 				if (c2.getContinent().equals(continent)) {
-					totalPopulation += c2.getPopulation();
+					countriesNum++;
 				}
 			}
-			populationPerContinent.put(continent, totalPopulation);
+			countriesPerContinent.put(continent, countriesNum);
 		}
 		
-		for (String continent : populationPerContinent.keySet()) {
-			int population = populationPerContinent.get(continent);
-			System.out.println(continent + ", " + population + " habitants");
+		for (String continent : countriesPerContinent.keySet()) {
+			int population = countriesPerContinent.get(continent);
+			System.out.println(continent + ", " + population + " pays");
 		}
 
 	}
