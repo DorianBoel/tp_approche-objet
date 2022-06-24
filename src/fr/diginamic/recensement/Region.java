@@ -3,7 +3,7 @@ package fr.diginamic.recensement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Region {
+public class Region extends GeographicEntity {
 
 	// Instance attributes
 	private String name, code;

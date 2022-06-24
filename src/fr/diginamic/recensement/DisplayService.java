@@ -13,6 +13,9 @@ public class DisplayService {
 			case ("department-prompt") :
 				System.out.println("Veuillez rentrer le numéro d'un département (Appuyer sur retour pour annuler)");
 				break;
+			case ("department-top-10") :
+				System.out.println("Les 10 départements de France les plus peuplés:");
+				return;
 			case ("exit") :
 				System.out.println("Fermeture du programme");
 				return;
@@ -65,6 +68,12 @@ public class DisplayService {
 			case ("no-result") : 
 				System.out.println("Aucun résultat trouvé");
 				break;
+			case ("region-prompt") :
+				System.out.println("Veuillez sélectionner une région (Appuyer sur retour pour annuler)");
+				break;
+			case ("region-top-10") :
+				System.out.println("Les 10 régions de France les plus peuplées:");
+				return;
 			case ("start") : 
 				System.out.println("Recensement des villes de France");
 				System.out.println("________________________________");
@@ -91,28 +100,17 @@ public class DisplayService {
 			case ("results-total") :
 				System.out.println(value + " résultats trouvés: ");
 				return;
+			case ("display-string") :
+				System.out.println(value);
+				break;
 			default :
 				return;
-		}
-	}
-	
-	public static void displayCityResults(List<City> results) {
-		if (results.size() == 1) {
-			displayMessage("single-result", results);
-			displayMessage("menu-opt-1");
-			return;
-		}
-		int resultsLimit = results.size() > 10 ? 10 : results.size();
-		displayMessage("results-total", String.valueOf(results.size()));
-		if (results.size() > 10) {
-			DisplayService.displayMessage("first-10");
-		}
-		for (int i = 0; i < resultsLimit; i++) {
-			System.out.println(" " + (i + 1) + ". " + results.get(i).toString());
 		}
 		System.out.println();
 	}
 	
-	//public static void displayListLine(int)
+	public static void displayListLine(int i, String value) {
+		System.out.println(" " + i + ". " + value);
+	}
 	
 }

@@ -5,26 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Service {
+public class MainService {
 
 	// Class methods
-	public static void displayCityPopulation(Census census, Scanner scanner) {
-		DisplayService.displayMessage("city-prompt");
-		String searchTerm = PromptService.acceptInput(scanner);
-		if (searchTerm.strip().equals("")) {
-			displayMenu();
-			return;
-		}
-		List<City> results = Search.findCityByName(searchTerm, census.getCityList());
-		if (results.size() == 0) {
-			DisplayService.displayMessage("no-result");
-			displayCityPopulation(census, scanner);
-			return;
-		}
-		DisplayService.displayCityResults(results);
-		DisplayService.displayMessage("menu-opt-1");
-	}
-	
 	public static void start() {
 		DisplayService.displayMessage("start");
 		displayMenu();
@@ -34,70 +17,69 @@ public class Service {
 		DisplayService.displayMessage("menu");
 	}
 	
-	public static void displayDepartmentPopulation(Census census, Scanner scanner) {
-		DisplayService.displayMessage("department-prompt");
-		String code = PromptService.acceptInput(scanner);
-		if (code.strip().equals("")) {
-			displayMenu();
-			return;
+	public static void getCityPopulation(Census census, Scanner scanner) throws CancelSearchException, CityNoResultsException {
+		List<City> results = SecondaryService.searchCity(census.getCityList(), scanner);
+		try {
+			if (results.size() == 0) {
+				DisplayService.displayMessage("no-result");
+				throw new CityNoResultsException();
+			}
+			SecondaryService.displayCityResults(results);
+		} catch(CityNoResultsException e) {
+			getCityPopulation(census, scanner);
 		}
-		Department departement = Search.findDepartment(code, census.getDepartmentList());
-		if (departement == null) {
-			DisplayService.displayMessage("no-department");
-			displayDepartmentPopulation(census, scanner);
-			return;
-		}
-		System.out.println(departement.toString());
-		System.out.println();
-		DisplayService.displayMessage("menu-opt-2");
 	}
 	
-	public static void displayRegionPopulation(Census census, Scanner scanner, boolean displayList) {
-		if (displayList) {
-			System.out.println("Veuillez sélectionner une région (Appuyer sur retour pour annuler)");
-			System.out.println();
-		}
-		List<String> indexList = new ArrayList<>();
-		Collections.sort(census.getRegionList(), new RegionNameComparator());
-		for (int i = 0; i < census.getRegionList().size(); i++) {
-			if (displayList) {				
-				System.out.println(" " + (i + 1) + ". " + census.getRegionList().get(i).getName());
+	public static void displayDepartmentPopulation(Census census, Scanner scanner) throws CancelSearchException {
+		Department department = SecondaryService.searchDepartment(census.getDepartmentList(), scanner);
+		try {
+			if (department == null) {
+				DisplayService.displayMessage("no-department");
+				throw new CityNoResultsException();
 			}
-			indexList.add(String.valueOf(i + 1));
+			DisplayService.displayMessage("display-string", department.toString());
+			DisplayService.displayMessage("menu-opt-2");
+		} catch(CityNoResultsException e) {
+			displayDepartmentPopulation(census, scanner);
 		}
-		System.out.println();
-		String regionSelect = PromptService.acceptInput(scanner); 
-		if (regionSelect.strip().equals("")) {
-			displayMenu();
-			return;
+	}
+	
+	public static void displayRegionPopulation(Census census, Scanner scanner, boolean displayList) throws NumberFormatException, CancelSearchException, CityNoResultsException {
+		List<Region> regions = census.getRegionList();
+		if (displayList) {
+			SecondaryService.displayRegionList(regions);
 		}
-		if (!indexList.contains(regionSelect)) {
-			System.out.println("Option invalide");
-			System.out.println();
+		String regionSelect = SecondaryService.selectRegion(scanner);
+		try {
+			int index = Integer.parseInt(regionSelect) - 1;
+			if (index < 0 || index >= regions.size()) {
+				defaultOption();
+				throw new CityNoResultsException();
+			}
+			DisplayService.displayMessage("display-string", regions.get(index).toString());
+			DisplayService.displayMessage("menu-opt-3");
+		} catch(NumberFormatException | CityNoResultsException e) {
 			displayRegionPopulation(census, scanner, false);
-			return;
 		}
-		int index = Integer.parseInt(regionSelect) - 1;
-		System.out.println(census.getRegionList().get(index).toString());
-		System.out.println();
-		DisplayService.displayMessage("menu-opt-3");
 	}
 	
 	public static void displayRegionTop10(Census census) {
-		System.out.println("Les 10 régions de France les plus peuplées:");
-		Collections.sort(census.getRegionList(), new RegionPopulationComparator());
+		DisplayService.displayMessage("region-top-10");
+		List<Region> regions = new ArrayList<>(census.getRegionList());
+		Collections.sort(regions, new RegionPopulationComparator());
 		for (int i = 0; i < 10; i++) {
-			System.out.println(" " + (i + 1) + ". " + census.getRegionList().get(i).toString());
+			DisplayService.displayListLine(i + 1, regions.get(i).toString());
 		}
 		System.out.println();
 		DisplayService.displayMessage("menu-opt");
 	}
 	
 	public static void displayDepartmentTop10(Census census) {
-		System.out.println("Les 10 départements de France les plus peuplés:");
-		Collections.sort(census.getDepartmentList(), new DepartmentPopulationComparator());
+		DisplayService.displayMessage("department-top-10");
+		List<Department> departments = new ArrayList<>(census.getDepartmentList());
+		Collections.sort(departments, new DepartmentPopulationComparator());
 		for (int i = 0; i < 10; i++) {
-			System.out.println(" " + (i + 1) + ". " + census.getDepartmentList().get(i).toString());
+			DisplayService.displayListLine(i + 1, departments.get(i).toString());
 		}
 		System.out.println();
 		DisplayService.displayMessage("menu-opt");
@@ -113,17 +95,11 @@ public class Service {
 		DisplayService.displayMessage("menu-opt");
 	}
 	
-	public static void displayDepartmentCityTop10(Census census, Scanner scanner) {
-		DisplayService.displayMessage("department-prompt");
-		String code = PromptService.acceptInput(scanner);
-		if (code.strip().equals("")) {
-			displayMenu();
-			return;
-		}
-		Department department = Search.findDepartment(code, census.getDepartmentList());
+	public static void displayDepartmentCityTop10(Census census, Scanner scanner) throws CancelSearchException {
+		Department department = SecondaryService.searchDepartment(census.getDepartmentList(), scanner);
 		if (department == null) {
 			DisplayService.displayMessage("no-department");
-			displayDepartmentPopulation(census, scanner);
+			displayDepartmentCityTop10(census, scanner);
 			return;
 		}
 		Collections.sort(department.getCities(), new CityPopulationComparator());
@@ -157,7 +133,7 @@ public class Service {
 		if (!indexList.contains(regionSelect)) {
 			System.out.println("Option invalide");
 			System.out.println();
-			displayRegionPopulation(census, scanner, false);
+			displayRegionCityTop10(census, scanner, displayList);
 			return;
 		}
 		int index = Integer.parseInt(regionSelect) - 1;

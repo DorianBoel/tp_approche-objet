@@ -1,6 +1,6 @@
 package fr.diginamic.recensement;
 
-public class City {
+public class City extends GeographicEntity {
 
 	// Instance attributes
 	private String name, cityCode, departmentCode, regionName, regionCode;
