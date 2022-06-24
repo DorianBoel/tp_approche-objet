@@ -27,6 +27,7 @@ public class FusionListe {
 
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> fuseLists(List<T> ...lists) {
 		List<T> newList = new ArrayList<>();
 		for (List<T> list : lists) {

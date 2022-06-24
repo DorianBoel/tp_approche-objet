@@ -25,7 +25,8 @@ public class CreationMap {
 		cityMap.put(31, "Toulouse");
 		
 		cityMap.put(59, "Lille");
-		cityMap.put(33, "Lyon");
+		cityMap.put(69, "Lyon");
+		cityMap.put(33, "Bordeaux");
 		
 		for (int department : cityMap.keySet()) {
 			String city = cityMap.get(department);
