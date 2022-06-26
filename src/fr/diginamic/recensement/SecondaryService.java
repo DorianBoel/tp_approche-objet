@@ -1,6 +1,8 @@
 package fr.diginamic.recensement;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,7 +36,6 @@ public class SecondaryService {
 	
 	public static void displayRegionList(List<Region> regionList) {
 		DisplayService.displayMessage("region-prompt");
-		Collections.sort(regionList, new RegionNameComparator());
 		for (int i = 0; i < regionList.size(); i++) {				
 			DisplayService.displayListLine(i + 1, regionList.get(i).getName());
 		}
@@ -57,6 +58,24 @@ public class SecondaryService {
 		}
 		System.out.println();
 		DisplayService.displayMessage("menu-opt-1");
+	}
+	
+	public static List<City> copyCityListSorted(List<City> list, Comparator<City> comparator) {
+		List<City> copy = new ArrayList<>(list);
+		Collections.sort(copy, comparator);
+		return copy;
+	}
+	
+	public static List<Department> copyDepartmentListSorted(List<Department> list, Comparator<Department> comparator) {
+		List<Department> copy = new ArrayList<>(list);
+		Collections.sort(copy, comparator);
+		return copy;
+	}
+	
+	public static List<Region> copyRegionListSorted(List<Region> list, Comparator<Region> comparator) {
+		List<Region> copy = new ArrayList<>(list);
+		Collections.sort(copy, comparator);
+		return copy;
 	}
 	
 }

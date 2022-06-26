@@ -45,7 +45,7 @@ public class MainService {
 	}
 	
 	public static void displayRegionPopulation(Census census, Scanner scanner, boolean displayList) throws NumberFormatException, CancelSearchException, CityNoResultsException {
-		List<Region> regions = census.getRegionList();
+		List<Region> regions = SecondaryService.copyRegionListSorted(census.getRegionList(), new RegionNameComparator());
 		if (displayList) {
 			SecondaryService.displayRegionList(regions);
 		}
@@ -65,8 +65,7 @@ public class MainService {
 	
 	public static void displayRegionTop10(Census census) {
 		DisplayService.displayMessage("region-top-10");
-		List<Region> regions = new ArrayList<>(census.getRegionList());
-		Collections.sort(regions, new RegionPopulationComparator());
+		List<Region> regions = SecondaryService.copyRegionListSorted(census.getRegionList(), new RegionPopulationComparator());
 		for (int i = 0; i < 10; i++) {
 			DisplayService.displayListLine(i + 1, regions.get(i).toString());
 		}
@@ -76,8 +75,7 @@ public class MainService {
 	
 	public static void displayDepartmentTop10(Census census) {
 		DisplayService.displayMessage("department-top-10");
-		List<Department> departments = new ArrayList<>(census.getDepartmentList());
-		Collections.sort(departments, new DepartmentPopulationComparator());
+		List<Department> departments = SecondaryService.copyDepartmentListSorted(census.getDepartmentList(), new DepartmentPopulationComparator());
 		for (int i = 0; i < 10; i++) {
 			DisplayService.displayListLine(i + 1, departments.get(i).toString());
 		}
@@ -87,9 +85,9 @@ public class MainService {
 	
 	public static void displayCityTop10(Census census) {
 		System.out.println("Les 10 villes de France les plus peuplées:");
-		Collections.sort(census.getCityList(), new CityPopulationComparator());
+		List<City> cities = SecondaryService.copyCityListSorted(census.getCityList(), new CityPopulationComparator());
 		for (int i = 0; i < 10; i++) {
-			System.out.println(" " + (i + 1) + ". " + census.getCityList().get(i).toString());
+			DisplayService.displayListLine(i + 1, cities.get(i).toString());
 		}
 		System.out.println();
 		DisplayService.displayMessage("menu-opt");
@@ -97,55 +95,46 @@ public class MainService {
 	
 	public static void displayDepartmentCityTop10(Census census, Scanner scanner) throws CancelSearchException {
 		Department department = SecondaryService.searchDepartment(census.getDepartmentList(), scanner);
-		if (department == null) {
-			DisplayService.displayMessage("no-department");
+		try {
+			if (department == null) {
+				DisplayService.displayMessage("no-department");
+				throw new CityNoResultsException();
+			}
+			List<City> cities = SecondaryService.copyCityListSorted(department.getCities(), new CityPopulationComparator());
+			DisplayService.displayMessage("department-cities", department.getCode());
+			for (int i = 0; i < 10; i++) {
+				DisplayService.displayListLine(i + 1, cities.get(i).toString());
+			}
+			System.out.println();
+			DisplayService.displayMessage("menu-opt-6");
+		} catch(CityNoResultsException e) {
 			displayDepartmentCityTop10(census, scanner);
-			return;
 		}
-		Collections.sort(department.getCities(), new CityPopulationComparator());
-		System.out.println("Les 10 villes les plus peuplées dans le département " + department.getCode() + " :");
-		for (int i = 0; i < 10; i++) {
-			System.out.println(" " + (i + 1) + ". " + department.getCities().get(i).toString());	
-		}
-		System.out.println();
-		DisplayService.displayMessage("menu-opt-6");
 	}
 	
-	public static void displayRegionCityTop10(Census census, Scanner scanner, boolean displayList) {
+	public static void displayRegionCityTop10(Census census, Scanner scanner, boolean displayList) throws CancelSearchException, NumberFormatException, CityNoResultsException {
+		List<Region> regions = SecondaryService.copyRegionListSorted(census.getRegionList(), new RegionNameComparator());
 		if (displayList) {
-			System.out.println("Veuillez sélectionner une région (Appuyer sur retour pour annuler):");
-			System.out.println();
+			SecondaryService.displayRegionList(regions);
 		}
-		List<String> indexList = new ArrayList<>();
-		Collections.sort(census.getRegionList(), new RegionNameComparator());
-		for (int i = 0; i < census.getRegionList().size(); i++) {
-			if (displayList) {				
-				System.out.println(" " + (i + 1) + ". " + census.getRegionList().get(i).getName());
+		String regionSelect = SecondaryService.selectRegion(scanner);
+		try {
+			int index = Integer.parseInt(regionSelect) - 1;
+			if (index < 0 || index >= regions.size()) {
+				defaultOption();
+				throw new CityNoResultsException();
+			} 
+			Region region = regions.get(index);
+			List<City> cities = SecondaryService.copyCityListSorted(region.getCities(), new CityPopulationComparator());
+			DisplayService.displayMessage("region-cities", region.getName());
+			for (int i = 0; i < 10; i++) {
+				System.out.println(" " + (i + 1) + ". " + cities.get(i).toString());
 			}
-			indexList.add(String.valueOf(i + 1));
-		}
-		System.out.println();
-		String regionSelect = PromptService.acceptInput(scanner); 
-		if (regionSelect.strip().equals("")) {
-			displayMenu();
-			return;
-		}
-		if (!indexList.contains(regionSelect)) {
-			System.out.println("Option invalide");
 			System.out.println();
-			displayRegionCityTop10(census, scanner, displayList);
-			return;
+			DisplayService.displayMessage("menu-opt-7");
+		} catch(NumberFormatException | CityNoResultsException e) {
+			displayRegionPopulation(census, scanner, false);
 		}
-		int index = Integer.parseInt(regionSelect) - 1;
-		Region region = census.getRegionList().get(index);
-		List<City> cities = census.getRegionList().get(index).getCities();
-		Collections.sort(cities, new CityPopulationComparator());
-		System.out.println("Les 10 villes les plus peuplées dans la région " + region.getName() + " :");
-		for (int i = 0; i < 10; i++) {
-			System.out.println(" " + (i + 1) + ". " + cities.get(i).toString());	
-		}
-		System.out.println();
-		DisplayService.displayMessage("menu-opt-7");
 	}
 	
 	public static void defaultOption() {

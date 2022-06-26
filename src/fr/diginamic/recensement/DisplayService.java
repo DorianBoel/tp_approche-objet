@@ -100,6 +100,12 @@ public class DisplayService {
 			case ("results-total") :
 				System.out.println(value + " résultats trouvés: ");
 				return;
+			case ("department-cities") :
+				System.out.println("Les 10 villes les plus peuplées dans le département " + value + " :");
+				return;
+			case ("region-cities") :
+				System.out.println("Les 10 villes les plus peuplées dans la région " + value + " :");
+				return;
 			case ("display-string") :
 				System.out.println(value);
 				break;
