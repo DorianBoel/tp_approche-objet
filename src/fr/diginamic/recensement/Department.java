@@ -6,17 +6,18 @@ import java.util.List;
 public class Department extends GeographicEntity {
 
 	// Instance attributes
-	private String code, regionCode;
+	private String regionCode;
 	private List<City> cities = new ArrayList<>();
 	
 	// Constructor
 	public Department(String code, String regionCode, List<City> list) {
-		this.code = code;
+		super(code);
 		this.regionCode = regionCode;
 		this.cities.addAll(list);
 	}
 	
 	//Instance methods
+	@Override
 	public int getPopulation() {
 		int population = 0;
 		for (City city : this.cities) {
@@ -34,10 +35,6 @@ public class Department extends GeographicEntity {
 	}
 
 	// Getters
-	public String getCode() {
-		return this.code;
-	}
-	
 	public String getRegionCode() {
 		return this.regionCode;
 	}
@@ -47,10 +44,6 @@ public class Department extends GeographicEntity {
 	}
 
 	// Setters
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
 	public void setRegionCode(String regionCode) {
 		this.regionCode = regionCode;
 	}

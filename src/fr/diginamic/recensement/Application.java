@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Application {
 
-	public static void main(String[] args) throws IOException, CancelSearchException, CityNoResultsException {
+	public static void main(String[] args) throws IOException, CancelSearchException, NoResultsException {
 		
 		
 		Census census = Census.getInstance();
@@ -27,7 +27,7 @@ public class Application {
 						MainService.displayMenu();
 						break;
 					case ("1") :
-						MainService.getCityPopulation(census, menuPrompt);
+						MainService.displayCityPopulation(census, menuPrompt);
 						break;
 					case ("2") :
 						MainService.displayDepartmentPopulation(census, menuPrompt);

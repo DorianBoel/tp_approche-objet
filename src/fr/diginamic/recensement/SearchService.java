@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Search {
+public class SearchService {
 	
 	public static List<City> findCityByName(String term, List<City> list) {
 		List<City>

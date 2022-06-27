@@ -84,17 +84,6 @@ public class DisplayService {
 		System.out.println();
 	}
 	
-	public static <T> void displayMessage(String state, List<T> list) {
-		switch (state) {
-			case ("single-result") :
-				System.out.println(list.get(0).toString());
-				break;
-			default :
-				return;
-		}
-		System.out.println();
-	}
-	
 	public static void displayMessage(String state, String value) {
 		switch (state) {
 			case ("results-total") :
@@ -117,6 +106,17 @@ public class DisplayService {
 	
 	public static void displayListLine(int i, String value) {
 		System.out.println(" " + i + ". " + value);
+	}
+	
+	public static void displayList(List<? extends GeographicEntity> list) {
+		displayList(list, 10);
+	}
+	
+	public static void displayList(List<? extends GeographicEntity> list, int limit) {
+		for (int i = 0; i < limit; i++) {				
+			DisplayService.displayListLine(i + 1, list.get(i).toString());
+		}
+		System.out.println();
 	}
 	
 }

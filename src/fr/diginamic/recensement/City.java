@@ -3,13 +3,13 @@ package fr.diginamic.recensement;
 public class City extends GeographicEntity {
 
 	// Instance attributes
-	private String name, cityCode, departmentCode, regionName, regionCode;
+	private String name, departmentCode, regionName, regionCode;
 	private int population;
 	
 	//Constructor
-	public City(String name, String cityCode, String departmentCode, String regionName, String regionCode, int population) {
+	public City(String name, String code, String departmentCode, String regionName, String regionCode, int population) {
+		super(code);
 		this.name = name;
-		this.cityCode = cityCode;
 		this.departmentCode = departmentCode;
 		this.regionName = regionName;
 		this.regionCode = regionCode;
@@ -18,7 +18,7 @@ public class City extends GeographicEntity {
 	
 	// Instance methods
 	public String getFullCityCode() {
-		return this.departmentCode + this.cityCode;
+		return this.departmentCode + this.code;
 	}
 	
 	@Override
@@ -35,10 +35,6 @@ public class City extends GeographicEntity {
 		return this.name;
 	}
 
-	public String getCityCode() {
-		return this.cityCode;
-	}
-
 	public String getDepartmentCode() {
 		return this.departmentCode;
 	}
@@ -51,6 +47,7 @@ public class City extends GeographicEntity {
 		return this.regionCode;
 	}
 
+	@Override
 	public int getPopulation() {
 		return this.population;
 	}
@@ -58,10 +55,6 @@ public class City extends GeographicEntity {
 	// Setters
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
 	}
 
 	public void setDepartmentCode(String departmentCode) {

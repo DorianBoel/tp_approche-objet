@@ -14,16 +14,16 @@ public class SecondaryService {
 		if (searchTerm.strip().equals("")) {
 			throw new CancelSearchException();
 		}
-		return Search.findCityByName(searchTerm, cityList);
+		return SearchService.findCityByName(searchTerm, cityList);
 	}
 	
-	public static Department searchDepartment(List<Department> list, Scanner scanner) throws CancelSearchException {
+	public static Department searchDepartment(List<Department> departmentList, Scanner scanner) throws CancelSearchException {
 		DisplayService.displayMessage("department-prompt");
-		String code = PromptService.acceptInput(scanner);
-		if (code.strip().equals("")) {
+		String departmentCode = PromptService.acceptInput(scanner);
+		if (departmentCode.strip().equals("")) {
 			throw new CancelSearchException();
 		}
-		return Search.findDepartment(code, list);
+		return SearchService.findDepartment(departmentCode, departmentList);
 	}
 	
 	public static String selectRegion(Scanner scanner) throws CancelSearchException {
@@ -44,7 +44,7 @@ public class SecondaryService {
 	
 	public static void displayCityResults(List<City> results) {
 		if (results.size() == 1) {
-			DisplayService.displayMessage("single-result", results);
+			DisplayService.displayMessage("display-string", results.get(0).toString());
 			DisplayService.displayMessage("menu-opt-1");
 			return;
 		}
@@ -53,27 +53,12 @@ public class SecondaryService {
 		if (results.size() > 10) {
 			DisplayService.displayMessage("first-10");
 		}
-		for (int i = 0; i < resultsLimit; i++) {
-			DisplayService.displayListLine(i + 1, results.get(i).toString());
-		}
-		System.out.println();
+		DisplayService.displayList(results, resultsLimit);
 		DisplayService.displayMessage("menu-opt-1");
 	}
 	
-	public static List<City> copyCityListSorted(List<City> list, Comparator<City> comparator) {
-		List<City> copy = new ArrayList<>(list);
-		Collections.sort(copy, comparator);
-		return copy;
-	}
-	
-	public static List<Department> copyDepartmentListSorted(List<Department> list, Comparator<Department> comparator) {
-		List<Department> copy = new ArrayList<>(list);
-		Collections.sort(copy, comparator);
-		return copy;
-	}
-	
-	public static List<Region> copyRegionListSorted(List<Region> list, Comparator<Region> comparator) {
-		List<Region> copy = new ArrayList<>(list);
+	public static <T extends GeographicEntity> List<T> copyListSorted(List<T> list, Comparator<T> comparator) {
+		List<T> copy = new ArrayList<>(list);
 		Collections.sort(copy, comparator);
 		return copy;
 	}
