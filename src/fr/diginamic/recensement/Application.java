@@ -1,7 +1,6 @@
 package fr.diginamic.recensement;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Application {
@@ -10,9 +9,6 @@ public class Application {
 		
 		
 		Census census = Census.getInstance();
-		List<City> cities = census.getCityList();
-		List<Department> departments = census.getDepartmentList();
-		List<Region> regions = census.getRegionList();
 		
 		Scanner menuPrompt = new Scanner(System.in);
 		String menuSelect = "0";
@@ -61,25 +57,6 @@ public class Application {
 			}
 		}
 		menuPrompt.close();
-		
-		/*List<City> results = Search.findCityByName("m", cities);
-		Collections.sort(cities, new CityPopulationComparator());
-		int searchLimit = results.size() < 10 ? results.size() : 10;
-		for (int i = 0; i < searchLimit; i++) {
-			System.out.println((i + 1) + " - " + cities.get(i).toString());
-			System.out.println();
-		}
-		int remaining = results.size() - searchLimit;
-		if (remaining > 0) {
-			System.out.println("(" + remaining + " autres résultats)");
-			System.out.println();
-		}*/
-		
-		//System.out.println(Search.findDepartment("7", departments).getRegionCode());
-		
-		/*for (Region region : regions) {
-			System.out.println(region.getName());
-		}*/
 
 	}
 

@@ -48,11 +48,11 @@ public class MainService {
 		List<City> results = SecondaryService.searchCity(census.getCityList(), scanner);
 		try {
 			if (results.size() == 0) {
-				DisplayService.displayMessage("no-result");
 				throw new NoResultsException();
 			}
 			SecondaryService.displayCityResults(results);
 		} catch(NoResultsException e) {
+			DisplayService.displayMessage("no-result");
 			displayCityPopulation(census, scanner);
 		}
 	}
@@ -61,12 +61,12 @@ public class MainService {
 		Department department = SecondaryService.searchDepartment(census.getDepartmentList(), scanner);
 		try {
 			if (department == null) {
-				DisplayService.displayMessage("no-department");
 				throw new NoResultsException();
 			}
 			DisplayService.displayMessage("display-string", department.toString());
 			DisplayService.displayMessage("menu-opt-2");
 		} catch(NoResultsException e) {
+			DisplayService.displayMessage("no-department");
 			displayDepartmentPopulation(census, scanner);
 		}
 	}
@@ -80,12 +80,12 @@ public class MainService {
 		try {
 			int index = Integer.parseInt(regionSelect) - 1;
 			if (index < 0 || index >= regions.size()) {
-				defaultOption();
 				throw new NoResultsException();
 			}
 			DisplayService.displayMessage("display-string", regions.get(index).toString());
 			DisplayService.displayMessage("menu-opt-3");
 		} catch(NumberFormatException | NoResultsException e) {
+			defaultOption();
 			displayRegionPopulation(census, scanner, false);
 		}
 	}
@@ -94,7 +94,6 @@ public class MainService {
 		Department department = SecondaryService.searchDepartment(census.getDepartmentList(), scanner);
 		try {
 			if (department == null) {
-				DisplayService.displayMessage("no-department");
 				throw new NoResultsException();
 			}
 			List<City> cities = SecondaryService.copyListSorted(department.getCities(), new CityPopulationComparator());
@@ -102,6 +101,7 @@ public class MainService {
 			DisplayService.displayList(cities);
 			DisplayService.displayMessage("menu-opt-6");
 		} catch(NoResultsException e) {
+			DisplayService.displayMessage("no-department");
 			displayDepartmentCityTop10(census, scanner);
 		}
 	}
@@ -115,7 +115,6 @@ public class MainService {
 		try {
 			int index = Integer.parseInt(regionSelect) - 1;
 			if (index < 0 || index >= regions.size()) {
-				defaultOption();
 				throw new NoResultsException();
 			} 
 			Region region = regions.get(index);
@@ -124,7 +123,8 @@ public class MainService {
 			DisplayService.displayList(cities);
 			DisplayService.displayMessage("menu-opt-7");
 		} catch(NumberFormatException | NoResultsException e) {
-			displayRegionPopulation(census, scanner, false);
+			defaultOption();
+			displayRegionCityTop10(census, scanner, false);
 		}
 	}
 	
