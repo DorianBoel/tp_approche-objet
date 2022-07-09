@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileAccess {
 
-	public static final Path PATH_FILE = Paths.get("/Users/macbook/Desktop/dev/diginamic/files/recensement.csv");
+	public static final Path PATH_FILE = Paths.get("../../files/recensement.csv");
 	
 	public static List<String> getLines(Path path) throws IOException {
 		return Files.readAllLines(path, StandardCharsets.UTF_8);
